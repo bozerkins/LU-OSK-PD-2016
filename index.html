@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="project">
+<head>
+    <meta charset="UTF-8">
+    <title>LU-OSK-PD-2016</title>
+    <!-- CSS libraries -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+
+    <!-- CSS application -->
+    <link href="index.css" type="text/css" rel="stylesheet">
+
+    <!-- JavaScript libraries-->
+    <script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+    <script src="https://code.angularjs.org/1.5.3/angular-route.min.js"></script>
+
+    <!-- JavaScript application -->
+    <script src="src/app.js"></script>
+    <script src="src/navigation.js"></script>
+    <script src="src/visualisations.js"></script>
+    <script src="src/visualisations/first-come-first-served.js"></script>
+    <script src="src/visualisations/priority.js"></script>
+    <script src="src/visualisations/round-robin.js"></script>
+    <script src="src/visualisations/shortest-job-first.js"></script>
+    <script src="src/homepage.js"></script>
+    <script src="src/about.js"></script>
+    <script src="src/collaborators.js"></script>
+</head>
+<body>
+
+<!-- Templates -->
+<script type="text/ng-template" id='/navigation.html'>
+    <div class="col-sm-3 col-md-2 sidebar">
+        <ul class="nav nav-sidebar">
+            <li><a href="#/visualisations/first-come-first-served">First come - First served</a></li>
+            <li><a href="#/visualisations/shortest-job-first">Shortest job first</a></li>
+            <li><a href="#/visualisations/round-robin">Round robin</a></li>
+            <li><a href="#/visualisations/priority">Priority</a></li>
+        </ul>
+    </div>
+</script>
+<script type="text/ng-template" id='/homepage.html'>
+    {{ template }}
+</script>
+<script type="text/ng-template" id='/about.html'>
+    {{ template }}
+</script>
+<script type="text/ng-template" id='/collaborators.html'>
+    {{ template }}
+</script>
+<script type="text/ng-template" id='/visualisations.html'>
+    <div class="row">
+        <navigation></navigation>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            {{ template }}
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id='/visualisations/first-come-first-served.html'>
+    <div class="row">
+        <navigation></navigation>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            {{ template }}
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id='/visualisations/shortest-job-first.html'>
+    <div class="row">
+        <navigation></navigation>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            {{ template }}
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id='/visualisations/round-robin.html'>
+    <div class="row">
+        <navigation></navigation>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            {{ template }}
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id='/visualisations/priority.html'>
+    <div class="row">
+        <navigation></navigation>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            {{ template }}
+        </div>
+    </div>
+</script>
+
+<!-- /Templates-->
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#/homepage">CPU plānošanas vizualizācija - grupa A</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#/visualisations">Vizualizācijas</a></li>
+                <li><a href="#/about">Par projektu</a></li>
+                <li><a href="#/collaborators">Izpildītāji</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid" ng-view></div>
+
+</body>
+</html>
