@@ -8,6 +8,25 @@ angular.module('project')
     $scope.processes = [];
     $scope.schedule = [];
 
+    $scope.getFormula = function() {
+        var names = _.map($scope.processes, function(value, key) {
+            return value.name;
+        });
+        return '(' + names.join('+') + ') / ProcessesCount';
+    };
+    $scope.getEquation = function() {
+        var waitingTimeArray = _.map($scope.processes, function(value, key) {
+            return value.waiting_time;
+        });
+        return '(' + waitingTimeArray.join('+') + ') / ' + waitingTimeArray.length;
+    };
+    $scope.getAverageWaitingTime = function() {
+        var waitingTimeArray = _.map($scope.processes, function(value, key) {
+            return value.waiting_time;
+        });
+        return waitingTimeArray.reduce(function(a, b) { return a + b; }, 0) / waitingTimeArray.length;
+    };
+
     $scope.createProcess = function(formProcess) {
         $scope.processesAutoIncrement++;
         var process = {};
@@ -62,24 +81,27 @@ angular.module('project')
             processesCache.splice(processesCache.indexOf(minExpectedEndTimeProcessKey), 1);
 
             var process = $scope.processes[minExpectedEndTimeProcessKey];
+            var schedule = null;
 
             if (!$scope.schedule.length) {
-                $scope.schedule.push({
+                schedule = {
                     'name': process.name,
                     'arrival_time' : process.arrival_time,
                     'start_time' : process.arrival_time,
                     'end_time' : process.arrival_time + process.burst_time
-                });
+                };
             } else {
                 var lastSchedule = $scope.schedule[$scope.schedule.length - 1];
                 var startTime = process.arrival_time < lastSchedule.end_time ? lastSchedule.end_time : process.arrival_time;
-                $scope.schedule.push({
+                schedule = {
                     'name': process.name,
                     'arrival_time' : process.arrival_time,
                     'start_time' : startTime,
                     'end_time' : startTime + process.burst_time
-                });
+                };
             }
+            $scope.schedule.push(schedule);
+            process.waiting_time = schedule.start_time - process.arrival_time;
         }
 
         // reset total scheduled seconds

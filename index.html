@@ -72,13 +72,13 @@
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-6 control-label">Arrival Time:</label>
                                 <div class="col-sm-6">
-                                    <input type="number" class="form-control" id="inputEmail3" ng-model="process.arrival_time" placeholder="arrival time in seconds">
+                                    <input type="number" class="form-control" id="inputEmail3" ng-model="process.arrival_time" placeholder="arrival time in msec">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputPassword3" class="col-sm-6 control-label">Burst Time:</label>
                                 <div class="col-sm-6">
-                                    <input type="number" class="form-control" id="inputPassword3"  ng-model="process.burst_time" placeholder="burst time in seconds">
+                                    <input type="number" class="form-control" id="inputPassword3"  ng-model="process.burst_time" placeholder="burst time in msec">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -95,11 +95,13 @@
                                 <th class="text-center">Process</th>
                                 <th class="text-center">Arrival Time</th>
                                 <th class="text-center">Burst Time</th>
+                                <th class="text-center">Waiting Time</th>
                             </tr>
                             <tr ng-repeat="(key, value) in processes">
                                 <td>{{value.name}}</td>
                                 <td>{{value.arrival_time}}</td>
                                 <td>{{value.burst_time}}</td>
+                                <td>{{value.waiting_time}}</td>
                             </tr>
                         </table>
                     </div>
@@ -127,7 +129,34 @@
                     </table>
                 </div>
                 <div class="row" ng-if="schedule.length">
+                    <h3>Average Waiting Time</h3>
+                    <hr />
+                    <div>
+                        AverageWaitingTime = {{ getFormula() }} = {{ getEquation() }} = {{ getAverageWaitingTime() }}
+                    </div>
+                    <hr />
+                </div>
+                <div class="row" ng-if="schedule.length">
                     <h3>Process Flow</h3>
+                    <hr />
+                    <div style="margin-bottom: 10px;">
+                        <div style="display: inline-block;">
+                            <div class="progress" style="width: 70px; display: inline-block; margin-bottom: 0px; border-radius: 0; background-color: #d46367; opacity: .5;">
+                                <div class="progress-bar" role="progressbar" style="width: 0;">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                            <label> - Planned time</label>
+                        </div>
+                        <div style="display: inline-block;margin-left: 10px;">
+                            <div class="progress" style="width: 70px; display: inline-block; margin-bottom: 0px; border-radius: 0;" >
+                                <div class="progress-bar" role="progressbar" style="width: 100%;">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                            <label> - Actual time</label>
+                        </div>
+                    </div>
                     <table class="table" style="table-layout: fixed;">
                         <tr>
                             <th style="width: 70px;">Process</th>
@@ -166,13 +195,13 @@
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-6 control-label">Arrival Time:</label>
                                 <div class="col-sm-6">
-                                    <input type="number" class="form-control" id="inputEmail3" ng-model="process.arrival_time" placeholder="arrival time in seconds">
+                                    <input type="number" class="form-control" id="inputEmail3" ng-model="process.arrival_time" placeholder="arrival time in msec">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputPassword3" class="col-sm-6 control-label">Burst Time:</label>
                                 <div class="col-sm-6">
-                                    <input type="number" class="form-control" id="inputPassword3"  ng-model="process.burst_time" placeholder="burst time in seconds">
+                                    <input type="number" class="form-control" id="inputPassword3"  ng-model="process.burst_time" placeholder="burst time in msec">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -189,11 +218,13 @@
                                 <th class="text-center">Process</th>
                                 <th class="text-center">Arrival Time</th>
                                 <th class="text-center">Burst Time</th>
+                                <th class="text-center">Waiting Time</th>
                             </tr>
                             <tr ng-repeat="(key, value) in processes">
                                 <td>{{value.name}}</td>
                                 <td>{{value.arrival_time}}</td>
                                 <td>{{value.burst_time}}</td>
+                                <td>{{value.waiting_time}}</td>
                             </tr>
                         </table>
                     </div>
@@ -221,7 +252,34 @@
                     </table>
                 </div>
                 <div class="row" ng-if="schedule.length">
+                    <h3>Average Waiting Time</h3>
+                    <hr />
+                    <div>
+                        AverageWaitingTime = {{ getFormula() }} = {{ getEquation() }} = {{ getAverageWaitingTime() }}
+                    </div>
+                    <hr />
+                </div>
+                <div class="row" ng-if="schedule.length">
                     <h3>Process Flow</h3>
+                    <hr />
+                    <div style="margin-bottom: 10px;">
+                        <div style="display: inline-block;">
+                            <div class="progress" style="width: 70px; display: inline-block; margin-bottom: 0px; border-radius: 0; background-color: #d46367; opacity: .5;">
+                                <div class="progress-bar" role="progressbar" style="width: 0;">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                            <label> - Planned time</label>
+                        </div>
+                        <div style="display: inline-block;margin-left: 10px;">
+                            <div class="progress" style="width: 70px; display: inline-block; margin-bottom: 0px; border-radius: 0;" >
+                                <div class="progress-bar" role="progressbar" style="width: 100%;">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                            <label> - Actual time</label>
+                        </div>
+                    </div>
                     <table class="table" style="table-layout: fixed;">
                         <tr>
                             <th style="width: 70px;">Process</th>
@@ -260,13 +318,13 @@
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-6 control-label">Arrival Time:</label>
                                 <div class="col-sm-6">
-                                    <input type="number" class="form-control" id="inputEmail3" ng-model="process.arrival_time" placeholder="arrival time in seconds">
+                                    <input type="number" class="form-control" id="inputEmail3" ng-model="process.arrival_time" placeholder="arrival time in msec">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputPassword3" class="col-sm-6 control-label">Burst Time:</label>
                                 <div class="col-sm-6">
-                                    <input type="number" class="form-control" id="inputPassword3"  ng-model="process.burst_time" placeholder="burst time in seconds">
+                                    <input type="number" class="form-control" id="inputPassword3"  ng-model="process.burst_time" placeholder="burst time in msec">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -283,11 +341,13 @@
                                 <th class="text-center">Process</th>
                                 <th class="text-center">Arrival Time</th>
                                 <th class="text-center">Burst Time</th>
+                                <th class="text-center">Waiting Time</th>
                             </tr>
                             <tr ng-repeat="(key, value) in processes">
                                 <td>{{value.name}}</td>
                                 <td>{{value.arrival_time}}</td>
                                 <td>{{value.burst_time}}</td>
+                                <td>{{value.waiting_time}}</td>
                             </tr>
                         </table>
                     </div>
@@ -320,6 +380,25 @@
                 </div>
                 <div class="row" ng-if="schedule.length">
                     <h3>Process Flow</h3>
+                    <hr />
+                    <div style="margin-bottom: 10px;">
+                        <div style="display: inline-block;">
+                            <div class="progress" style="width: 70px; display: inline-block; margin-bottom: 0px; border-radius: 0; background-color: #d46367; opacity: .5;">
+                                <div class="progress-bar" role="progressbar" style="width: 0;">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                            <label> - Planned time</label>
+                        </div>
+                        <div style="display: inline-block;margin-left: 10px;">
+                            <div class="progress" style="width: 70px; display: inline-block; margin-bottom: 0px; border-radius: 0;" >
+                                <div class="progress-bar" role="progressbar" style="width: 100%;">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                            <label> - Actual time</label>
+                        </div>
+                    </div>
                     <table class="table" style="table-layout: fixed;">
                         <tr>
                             <th style="width: 70px;">Process</th>
@@ -358,7 +437,7 @@
                             <div class="form-group">
                                 <label for="inputPassword3" class="col-sm-6 control-label">Burst Time:</label>
                                 <div class="col-sm-6">
-                                    <input type="number" class="form-control" id="inputPassword3"  ng-model="process.burst_time" placeholder="burst time in seconds">
+                                    <input type="number" class="form-control" id="inputPassword3"  ng-model="process.burst_time" placeholder="burst time in msec">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -414,6 +493,17 @@
                 </div>
                 <div class="row" ng-if="schedule.length">
                     <h3>Process Flow</h3>
+                    <hr />
+                    <div style="margin-bottom: 10px;">
+                        <div style="display: inline-block;margin-left: 10px;">
+                            <div class="progress" style="width: 70px; display: inline-block; margin-bottom: 0px; border-radius: 0;" >
+                                <div class="progress-bar" role="progressbar" style="width: 100%;">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                            <label> - Actual time</label>
+                        </div>
+                    </div>
                     <table class="table" style="table-layout: fixed;">
                         <tr>
                             <th style="width: 70px;">Process</th>
