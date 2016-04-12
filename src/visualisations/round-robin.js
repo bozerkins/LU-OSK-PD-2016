@@ -139,7 +139,7 @@ angular.module('project')
         for(var key in $scope.schedule) {
             var schedule = $scope.schedule[key];
             if (schedule.name === process.name
-                && (second >= schedule.start_time && second <= schedule.end_time)
+                && (second >= schedule.start_time && second < schedule.end_time)
             ) {
 
                 return true;
@@ -160,7 +160,7 @@ angular.module('project')
         for(var key in $scope.schedule) {
             var schedule = $scope.schedule[key];
             if (schedule.name === process.name
-                && (second >= process.arrival_time && second <= schedule.start_time)
+                && (second >= process.arrival_time && second < schedule.start_time)
             ) {
                 return true;
             }
