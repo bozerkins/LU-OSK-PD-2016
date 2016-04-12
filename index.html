@@ -1,1 +1,702 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en" ng-app="project">
+<head>
+    <meta charset="UTF-8">
+    <title>LU-OSK-PD-2016</title>
+    <!-- CSS libraries -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+
+    <!-- CSS application -->
+    <link href="index.css" type="text/css" rel="stylesheet">
+
+    <!-- JavaScript libraries-->
+    <script src="http://underscorejs.org/underscore-min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+    <script src="https://code.angularjs.org/1.5.3/angular-route.min.js"></script>
+
+    <!-- JavaScript application -->
+    <script src="src/app.js"></script>
+    <script src="src/navigation.js"></script>
+    <script src="src/visualisations.js"></script>
+    <script src="src/visualisations/first-come-first-served.js"></script>
+    <script src="src/visualisations/priority.js"></script>
+    <script src="src/visualisations/round-robin.js"></script>
+    <script src="src/visualisations/shortest-job-first.js"></script>
+    <script src="src/homepage.js"></script>
+    <script src="src/about.js"></script>
+    <script src="src/collaborators.js"></script>
+</head>
+<body>
+
+<!-- Templates -->
+<script type="text/ng-template" id='/navigation.html'>
+    <div class="col-sm-2 col-md-2 sidebar">
+        <ul class="nav nav-sidebar" style="">
+            <li><a href="#/visualisations/first-come-first-served">First come - First served</a></li>
+            <li><a href="#/visualisations/shortest-job-first">Shortest Job First</a></li>
+            <li><a href="#/visualisations/priority">Priority</a></li>
+            <li><a href="#/visualisations/round-robin">Round Robin</a></li>
+        </ul>
+    </div>
+</script>
+<script type="text/ng-template" id='/homepage.html'>
+    <br><br><br>
+    <div class="row">
+      <div class="col-sm-6 text-center">
+        <h1><a href="#/visualisations/">Šeit</a> notiek maģija...</h1><br>
+        <h1>...CPU plānošanas algoritmi!</h1><br>
+        <br><br><br><br><br>
+      </div>
+      <div class="col-sm-6 text-center">
+        <img src="img/cpu.png" class="img-responsive img-circle" style="width: 210px; height:210px;display: inline-block;" alt="Responsive image">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 text-center">
+          <h4>
+              <a href="#/about/">
+                <button type="button" class="btn btn-primary btn-lg">Par projektu</button>
+              </a>
+          </h4>
+      </div>
+      <div class="col-sm-6 text-center">
+          <h4>
+              <a href="#/collaborators/">
+                <button type="button" class="btn btn-primary btn-lg">Par autoriem</button>
+              </a>
+          </h4>
+      </div>
+    </div>
+
+</script>
+<script type="text/ng-template" id='/about.html'>
+    <h1> CPU plānošanas vizualizācija dažādiem plānošanas algoritmiem </h1>
+    <br><br>
+    <div class="row" style="padding-left:30px;">
+    <div class="col-sm-7" style="text-align: justify;">
+      <p class="lead">Projekta mērķis - uztaisīt nosaukumā minēto algoritmu vizualizāciju.<hr>
+      <h4>Projekta uzdevumi:</h4>
+      <ul>
+        <li>Izpētīt algoritmu darbības principus;</li>
+        <li>Paradīt to ar lokālu internēta lietotni izveidoto Javascript valodā,
+      ar dažādiem paplašinājumiem (Angular.js, JSON, Bootstrap);</li>
+        <li>Uztaisīt vizuālizāju ar iespēju, ka ar to būs iespējams paskaidrot algoritma
+      darbības principus cilvēkam, kuram pavisam nav nekādas zināšanas par dotiem algoritmiem;</li>
+      </ul>
+      <hr>
+      <h4>Lietojums:</h4>
+Vislabākais šīs programmas pielietojums ir izmantot to kā vizuālo papildmateriālu, lekcijas laikā stāstot par tādiem algoritmiem kā FCFS, SJF, Priority un RR. Šis projekts palīdzēs diezgan ātri un vienkārši pastāstīt par CPU plānošanas algoritmiem, kā arī ar vizuālizācijas palīdzību atvieglot tēmas apgūšanu. Vienmēr vieglāk ievadīt jebkuru izdomātu piemēru un apskatīt ar animācijas palīdzību, kā tas tiek īstenots.
+Lai lietotu programmu, viss, ko ir nepieciešams izdarīt, ir izvēlēties vienu no algoritmiem, ievadīt pieprasītos datus (Arrival Time, Burst Time, Priority utt.) un nospiest pogu “Start” nodaļā “Animation”, vai nu nospiest pogu “Generate”, lai ievietotu nejaušus ievaddatus. Lai anulētu datu tabulu, var uzklikšķināt uz pogu “Reset” nodaļā “Processes”. Lai apstādinātu animāciju, jāuzklikšķina uz pogas “Stop” nodaļā “Animation”.
+      </p>
+      </div>
+      <div class="col-sm-5">
+        <img src="img/goal.jpg" class="img-responsive img-square ;" style="width: 400px; height:272px; margin-left: 70px;" alt="Responsive image">
+      </div>
+    </div>
+
+</script>
+<script type="text/ng-template" id='/collaborators.html'>
+    <h1>Grupa A</h1>
+    <div class="row">
+    <br><br><br>
+      <div class="col-sm-3 text-center">
+      <img src="img/bogdan.jpg" class="img-responsive img-circle center-block" style="width: 170px; height:170px;" alt="Responsive image">
+      <br>
+      <h3>  Bogdans Ozerkins<br>
+      <h4>  bo12001
+      </div>
+      <div class="col-sm-3 text-center">
+      <img src="img/stella.jpg" class="img-responsive img-circle center-block" style="width: 170px; height:170px;" alt="Responsive image">
+      <br>
+      <h3>  Stella Tīda
+      <h4>  st12048
+      </div>
+      <div class="col-sm-3 text-center">
+      <img src="img/artur.jpg" class="img-responsive img-circle center-block" style="width: 170px; height:170px;" alt="Responsive image">
+      <br>
+      <h3>  Arturs Murajs<br>
+      <h4>  am12076
+      </div>
+      <div class="col-sm-3 text-center">
+      <img src="img/dana.jpg" class="img-responsive img-circle center-block" style="width: 170px; height:170px;" alt="Responsive image">
+      <br>
+      <h3>  Dana Orbitāne<br>
+      <h4>  do12022
+      </div>
+    </div>
+
+</script>
+<script type="text/ng-template" id='/visualisations.html'>
+    <div class="row">
+        <navigation></navigation>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            {{ template }}
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id='/visualisations/first-come-first-served.html'>
+    <div class="row">
+        <navigation></navigation>
+        <div class="col-sm-2 col-sm-offset-2 col-md-10 col-md-offset-2 main">
+            <div class="row">
+                <h3>First Come - First Served (FCFS) Scheduling</h3>
+                <hr />
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h4>Process creation form</h4>
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-6 control-label">Arrival Time:</label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" id="inputEmail3" ng-model="process.arrival_time" placeholder="arrival time in msec">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-6 control-label">Burst Time:</label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" id="inputPassword3"  ng-model="process.burst_time" placeholder="burst time in msec">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="button" class="btn btn-default" ng-click="createProcess(process)">Create Process</button>
+                                    <button type="button" class="btn btn-default" ng-click="resetProcess()">Reset</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-6">
+                        <table class="table table-bordered text-center">
+                            <tr>
+                                <th class="text-center">Process</th>
+                                <th class="text-center">Arrival Time</th>
+                                <th class="text-center">Burst Time</th>
+                                <th class="text-center">Waiting Time</th>
+                            </tr>
+                            <tr ng-repeat="(key, value) in processes">
+                                <td>{{value.name}}</td>
+                                <td>{{value.arrival_time}}</td>
+                                <td>{{value.burst_time}}</td>
+                                <td>{{value.waiting_time}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-sm-3">
+                        <h4>Processes</h4>
+                        <div style="margin-bottom: 30px;">
+                            <button class="btn btn-primary" ng-click="fillProcessesWithTestData();">GENERATE</button>
+                            <button class="btn btn-danger" ng-click="dropProcesses();">RESET</button>
+                        </div>
+                        <h4>Animation</h4>
+                        <div style="margin-bottom: 30px;">
+                            <button class="btn btn-primary" ng-click="generateSchedule(true);">START</button>
+                            <button class="btn btn-danger" ng-click="stopScheduleGeneration();">STOP</button>
+                        </div>
+                        <div style="margin-bottom: 30px;" ng-if="myAnimation && seconds">
+                            <label>Current Second: {{seconds}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-if="seconds > 0">
+                    <h3>Gantt Chart</h3>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th ng-if="!schedule.length"  class="text-center">---</th>
+                            <th ng-repeat="(key, value) in schedule" class="text-center">
+                                {{value.name}}
+                            </th>
+                        </tr>
+                        <tr>
+                            <td ng-if="!schedule.length"  class="text-center">---</td>
+                            <td ng-repeat="(key, value) in schedule" class="text-center">
+                                {{value.start_time}} - {{value.end_time}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="row" ng-if="seconds > 0">
+                    <h3>Average Waiting Time</h3>
+                    <hr />
+                    <div>
+                        AverageWaitingTime = {{ getFormula() }} = {{ getEquation() }} = {{ getAverageWaitingTime() }}
+                    </div>
+                    <hr />
+                </div>
+                <div class="row" ng-if="seconds > 0">
+                    <h3>Process Flow</h3>
+                    <hr />
+                    <div style="margin-bottom: 10px;">
+                        <div style="display: inline-block;">
+                            <div class="progress" style="width: 70px; display: inline-block; margin-bottom: 0px; border-radius: 0;">
+                                <div class="progress-bar progress-bar-danger" role="progressbar" style="width: 100%;">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                            <label> - Planned time</label>
+                        </div>
+                        <div style="display: inline-block;margin-left: 10px;">
+                            <div class="progress" style="width: 70px; display: inline-block; margin-bottom: 0px; border-radius: 0;" >
+                                <div class="progress-bar" role="progressbar" style="width: 100%;">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                            <label> - Actual time</label>
+                        </div>
+                    </div>
+                    <table class="table" style="table-layout: fixed;">
+                        <tr>
+                            <th style="width: 70px;">Process</th>
+                            <th ng-repeat="i in secondsRangeHeaders">
+                                {{i}}
+                            </th>
+                        </tr>
+                        <tr ng-repeat="(key, value) in processes">
+                            <th>
+                                {{value.name}}
+                            </th>
+                            <td ng-repeat="i in secondsRangeHeaders" style="padding-left:1px;padding-right:1px;">
+                                <div class="progress" style="margin-bottom: 0px; border-radius: 0;">
+                                    <div class="progress-bar"
+                                         ng-class="{'progress-bar-danger': isScheduleWaiting(value, i), 'no-transition': !isScheduleWaiting(value, i) && !isScheduleActive(value, i)}"
+                                         role="progressbar"
+                                         ng-style="{'width': isScheduleActive(value, i) || isScheduleWaiting(value, i)? '100%' : '0%'}"
+                                    >
+                                        <span class="sr-only"></span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+</script>
+<script type="text/ng-template" id='/visualisations/shortest-job-first.html'>
+    <div class="row">
+        <navigation></navigation>
+        <div class="col-sm-2 col-sm-offset-2 col-md-10 col-md-offset-2 main">
+            <div class="row">
+                <h3>Shortest Job First (SJF) Scheduling</h3>
+                <hr />
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h4>Process creation form</h4>
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-6 control-label">Arrival Time:</label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" id="inputEmail3" ng-model="process.arrival_time" placeholder="arrival time in msec">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-6 control-label">Burst Time:</label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" id="inputPassword3"  ng-model="process.burst_time" placeholder="burst time in msec">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="button" class="btn btn-default" ng-click="createProcess(process)">Create Process</button>
+                                    <button type="button" class="btn btn-default" ng-click="resetProcess()">Reset</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-6">
+                        <table class="table table-bordered text-center">
+                            <tr>
+                                <th class="text-center">Process</th>
+                                <th class="text-center">Arrival Time</th>
+                                <th class="text-center">Burst Time</th>
+                                <th class="text-center">Waiting Time</th>
+                            </tr>
+                            <tr ng-repeat="(key, value) in processes">
+                                <td>{{value.name}}</td>
+                                <td>{{value.arrival_time}}</td>
+                                <td>{{value.burst_time}}</td>
+                                <td>{{value.waiting_time}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-sm-3">
+                        <h4>Processes</h4>
+                        <div style="margin-bottom: 30px;">
+                            <button class="btn btn-primary" ng-click="fillProcessesWithTestData();">GENERATE</button>
+                            <button class="btn btn-danger" ng-click="dropProcesses();">RESET</button>
+                        </div>
+                        <h4>Animation</h4>
+                        <div style="margin-bottom: 30px;">
+                            <button class="btn btn-primary" ng-click="generateSchedule(true);">START</button>
+                            <button class="btn btn-danger" ng-click="stopScheduleGeneration();">STOP</button>
+                        </div>
+                        <div style="margin-bottom: 30px;" ng-if="myAnimation && seconds">
+                            <label>Current Second: {{seconds}}</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" ng-if="seconds > 0">
+                    <h3>Gantt Chart</h3>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th ng-if="!schedule.length"  class="text-center">---</th>
+                            <th ng-repeat="(key, value) in schedule" class="text-center">
+                                {{value.name}}
+                            </th>
+                        </tr>
+                        <tr>
+                            <td ng-if="!schedule.length"  class="text-center">---</td>
+                            <td ng-repeat="(key, value) in schedule" class="text-center">
+                                {{value.start_time}} - {{value.end_time}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="row" ng-if="seconds > 0">
+                    <h3>Average Waiting Time</h3>
+                    <hr />
+                    <div>
+                        AverageWaitingTime = {{ getFormula() }} = {{ getEquation() }} = {{ getAverageWaitingTime() }}
+                    </div>
+                    <hr />
+                </div>
+                <div class="row" ng-if="seconds > 0">
+                    <h3>Process Flow</h3>
+                    <hr />
+                    <div style="margin-bottom: 10px;">
+                        <div style="display: inline-block;">
+                            <div class="progress" style="width: 70px; display: inline-block; margin-bottom: 0px; border-radius: 0;">
+                                <div class="progress-bar progress-bar-danger" role="progressbar" style="width: 100%;">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                            <label> - Planned time</label>
+                        </div>
+                        <div style="display: inline-block;margin-left: 10px;">
+                            <div class="progress" style="width: 70px; display: inline-block; margin-bottom: 0px; border-radius: 0;" >
+                                <div class="progress-bar" role="progressbar" style="width: 100%;">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                            <label> - Actual time</label>
+                        </div>
+                    </div>
+                    <table class="table" style="table-layout: fixed;">
+                        <tr>
+                            <th style="width: 70px;">Process</th>
+                            <th ng-repeat="i in secondsRangeHeaders">
+                                {{i}}
+                            </th>
+                        </tr>
+                        <tr ng-repeat="(key, value) in processes">
+                            <th>
+                                {{value.name}}
+                            </th>
+                            <td ng-repeat="i in secondsRangeHeaders" style="padding-left:1px;padding-right:1px;">
+                                <div class="progress" style="margin-bottom: 0px; border-radius: 0;">
+                                    <div class="progress-bar"
+                                         ng-class="{'progress-bar-danger': isScheduleWaiting(value, i), 'no-transition': !isScheduleWaiting(value, i) && !isScheduleActive(value, i)}"
+                                         role="progressbar"
+                                         ng-style="{'width': isScheduleActive(value, i) || isScheduleWaiting(value, i)? '100%' : '0%'}"
+                                    >
+                                        <span class="sr-only"></span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+</script>
+<script type="text/ng-template" id='/visualisations/round-robin.html'>
+    <div class="row">
+        <navigation></navigation>
+        <div class="col-sm-2 col-sm-offset-2 col-md-10 col-md-offset-2 main">
+            <div class="row">
+                <h3>Round Robin (RR) Scheduling</h3>
+                <hr />
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h4>Process creation form</h4>
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-6 control-label">Arrival Time:</label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" id="inputEmail3" ng-model="process.arrival_time" placeholder="arrival time in msec">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-6 control-label">Burst Time:</label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" id="inputPassword3"  ng-model="process.burst_time" placeholder="burst time in msec">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="button" class="btn btn-default" ng-click="createProcess(process)">Create Process</button>
+                                    <button type="button" class="btn btn-default" ng-click="resetProcess()">Reset</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-6">
+                        <table class="table table-bordered text-center">
+                            <tr>
+                                <th class="text-center">Process</th>
+                                <th class="text-center">Arrival Time</th>
+                                <th class="text-center">Burst Time</th>
+                                <th class="text-center">Waiting Time</th>
+                            </tr>
+                            <tr ng-repeat="(key, value) in processes">
+                                <td>{{value.name}}</td>
+                                <td>{{value.arrival_time}}</td>
+                                <td>{{value.burst_time}}</td>
+                                <td>{{value.waiting_time}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-sm-3">
+                        <h4>Time Quantum</h4>
+                        <div style="margin-bottom: 30px;">
+                            <input type="number" ng-model="timeQuantum" class="form-control">
+                        </div>
+                        <h4>Processes</h4>
+                        <div style="margin-bottom: 30px;">
+                            <button class="btn btn-primary" ng-click="fillProcessesWithTestData();">GENERATE</button>
+                            <button class="btn btn-danger" ng-click="dropProcesses();">RESET</button>
+                        </div>
+                        <h4>Animation</h4>
+                        <div style="margin-bottom: 30px;">
+                            <button class="btn btn-primary" ng-click="generateSchedule(true);">START</button>
+                            <button class="btn btn-danger" ng-click="stopScheduleGeneration();">STOP</button>
+                        </div>
+                        <div style="margin-bottom: 30px;" ng-if="myAnimation && seconds">
+                            <label>Current Second: {{seconds}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-if="seconds > 0">
+                    <h3>Gantt Chart</h3>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th ng-if="!schedule.length"  class="text-center">---</th>
+                            <th ng-repeat="(key, value) in schedule" class="text-center">
+                                {{value.name}}
+                            </th>
+                        </tr>
+                        <tr>
+                            <td ng-if="!schedule.length"  class="text-center">---</td>
+                            <td ng-repeat="(key, value) in schedule" class="text-center">
+                                {{value.start_time}} - {{value.end_time}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="row" ng-if="seconds > 0">
+                    <h3>Process Flow</h3>
+                    <hr />
+                    <div style="margin-bottom: 10px;">
+                        <div style="display: inline-block;">
+                            <div class="progress" style="width: 70px; display: inline-block; margin-bottom: 0px; border-radius: 0;">
+                                <div class="progress-bar progress-bar-danger" role="progressbar" style="width: 100%;">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                            <label> - Planned time</label>
+                        </div>
+                        <div style="display: inline-block;margin-left: 10px;">
+                            <div class="progress" style="width: 70px; display: inline-block; margin-bottom: 0px; border-radius: 0;" >
+                                <div class="progress-bar" role="progressbar" style="width: 100%;">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                            <label> - Actual time</label>
+                        </div>
+                    </div>
+                    <table class="table" style="table-layout: fixed;">
+                        <tr>
+                            <th style="width: 70px;">Process</th>
+                            <th ng-repeat="i in secondsRangeHeaders">
+                                {{i}}
+                            </th>
+                        </tr>
+                        <tr ng-repeat="(key, value) in processes">
+                            <th>
+                                {{value.name}}
+                            </th>
+                            <td ng-repeat="i in secondsRangeHeaders" style="padding-left:1px;padding-right:1px;">
+                                <div class="progress" style="margin-bottom: 0px; border-radius: 0;">
+                                    <div class="progress-bar"
+                                         ng-class="{'progress-bar-danger': isScheduleWaiting(value, i), 'no-transition': !isScheduleWaiting(value, i) && !isScheduleActive(value, i)}"
+                                         role="progressbar"
+                                         ng-style="{'width': isScheduleActive(value, i) || isScheduleWaiting(value, i)? '100%' : '0%'}"
+                                    >
+                                        <span class="sr-only"></span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+</script>
+<script type="text/ng-template" id='/visualisations/priority.html'>
+    <div class="row">
+        <navigation></navigation>
+        <div class="col-sm-2 col-sm-offset-2 col-md-10 col-md-offset-2 main">
+            <div class="row">
+                <h3>Priority Scheduling</h3>
+                <hr />
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h4>Process creation form</h4>
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-6 control-label">Burst Time:</label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" id="inputPassword3"  ng-model="process.burst_time" placeholder="burst time in msec">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-6 control-label">Priority:</label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" id="inputEmail3" ng-model="process.priority" placeholder="execution priority">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="button" class="btn btn-default" ng-click="createProcess(process)">Create Process</button>
+                                    <button type="button" class="btn btn-default" ng-click="resetProcess()">Reset</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-6">
+                        <table class="table table-bordered text-center">
+                            <tr>
+                                <th class="text-center">Process</th>
+                                <th class="text-center">Burst Time</th>
+                                <th class="text-center">Priority</th>
+                            </tr>
+                            <tr ng-repeat="(key, value) in processes">
+                                <td>{{value.name}}</td>
+                                <td>{{value.burst_time}}</td>
+                                <td>{{value.priority}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-sm-3">
+                        <h4>Processes</h4>
+                        <div style="margin-bottom: 30px;">
+                            <button class="btn btn-primary" ng-click="fillProcessesWithTestData();">GENERATE</button>
+                            <button class="btn btn-danger" ng-click="dropProcesses();">RESET</button>
+                        </div>
+                        <h4>Animation</h4>
+                        <div style="margin-bottom: 30px;">
+                            <button class="btn btn-primary" ng-click="generateSchedule(true);">START</button>
+                            <button class="btn btn-danger" ng-click="stopScheduleGeneration();">STOP</button>
+                        </div>
+                        <div style="margin-bottom: 30px;" ng-if="myAnimation && seconds">
+                            <label>Current Second: {{seconds}}</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" ng-if="seconds > 0">
+                    <h3>Gantt Chart</h3>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th ng-if="!schedule.length"  class="text-center">---</th>
+                            <th ng-repeat="(key, value) in schedule" class="text-center">
+                                {{value.name}}
+                            </th>
+                        </tr>
+                        <tr>
+                            <td ng-if="!schedule.length"  class="text-center">---</td>
+                            <td ng-repeat="(key, value) in schedule" class="text-center">
+                                {{value.start_time}} - {{value.end_time}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="row" ng-if="seconds > 0">
+                    <h3>Process Flow</h3>
+                    <hr />
+                    <div style="margin-bottom: 10px;">
+                        <div style="display: inline-block;">
+                            <div class="progress" style="width: 70px; display: inline-block; margin-bottom: 0px; border-radius: 0;">
+                                <div class="progress-bar progress-bar-danger" role="progressbar" style="width: 100%;">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                            <label> - Planned time</label>
+                        </div>
+                        <div style="display: inline-block;margin-left: 10px;">
+                            <div class="progress" style="width: 70px; display: inline-block; margin-bottom: 0px; border-radius: 0;" >
+                                <div class="progress-bar" role="progressbar" style="width: 100%;">
+                                    <span class="sr-only"></span>
+                                </div>
+                            </div>
+                            <label> - Actual time</label>
+                        </div>
+                    </div>
+                    <table class="table" style="table-layout: fixed;">
+                        <tr>
+                            <th style="width: 70px;">Process</th>
+                            <th ng-repeat="i in secondsRangeHeaders">
+                                {{i}}
+                            </th>
+                        </tr>
+                        <tr ng-repeat="(key, value) in processes">
+                            <th>
+                                {{value.name}}
+                            </th>
+                            <td ng-repeat="i in secondsRangeHeaders" style="padding-left:1px;padding-right:1px;">
+                                <div class="progress" style="margin-bottom: 0px; border-radius: 0;">
+                                    <div class="progress-bar"
+                                         ng-class="{'progress-bar-danger': isScheduleWaiting(value, i), 'no-transition': !isScheduleWaiting(value, i) && !isScheduleActive(value, i)}"
+                                         role="progressbar"
+                                         ng-style="{'width': isScheduleActive(value, i) || isScheduleWaiting(value, i)? '100%' : '0%'}"
+                                    >
+                                        <span class="sr-only"></span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+</script>
+
+<!-- /Templates-->
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#/homepage">CPU plānošanas vizualizācija - grupa A</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#/visualisations">Vizualizācijas</a></li>
+                <li><a href="#/about">Par projektu</a></li>
+                <li><a href="#/collaborators">Izpildītāji</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid" ng-view></div>
+
+</body>
+</html>
