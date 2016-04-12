@@ -1,5 +1,5 @@
 angular.module('project')
-.controller('PriorityController', ['$scope', function($scope) {
+.controller('PriorityController', ['$scope', '$timeout', function($scope, $timeout) {
     $scope.processesAutoIncrement = 0;
     $scope.process = {
         'priority': 0,
@@ -7,6 +7,33 @@ angular.module('project')
     };
     $scope.processes = [];
     $scope.schedule = [];
+
+    $scope.isScheduleActive = function(process, second) {
+        if ($scope.secondsRange.indexOf(second) === -1) {
+            return false;
+        }
+
+        for(var key in $scope.schedule) {
+            var schedule = $scope.schedule[key];
+            if (schedule.name === process.name
+                && (second >= schedule.start_time && second < schedule.end_time)
+            ) {
+
+                return true;
+            }
+        }
+        return false;
+    };
+
+    $scope.isScheduleWaiting = function(process, second) {
+        return false;
+    };
+
+    $scope.stopScheduleGeneration = function() {
+        if ($scope.myAnimation) {
+            $timeout.cancel($scope.myAnimation);
+        }
+    };
 
     $scope.createProcess = function(formProcess) {
         $scope.processesAutoIncrement++;
@@ -26,30 +53,123 @@ angular.module('project')
         $scope.generateSchedule();
         $scope.resetProcess();
     };
-    $scope.generateSchedule = function() {
+
+    $scope.generateSchedule = function(delay) {
+
         // reset what's done
         $scope.dropSchedule();
 
-        // generate a new one
+        // drop animation
+        $scope.myAnimation = null;
+
+        // get total amount of seconds
+        $scope.seconds = 0;
+
+        var lastProcess = _.max($scope.processes, function (process) {
+            return process.burst_time;
+        });
+        var secondsForExecution = $scope.processes
+            ? lastProcess.burst_time
+            : 0;
+
+        // generate
+        $scope.generateScheduleRecursively(secondsForExecution, delay ? 1000 : 0);
+    };
+
+    $scope.generateScheduleRecursively = function(secondsForExecution, timeoutInSeconds) {
+        // get second
+        var second = $scope.seconds;
+
+        if (!$scope.schedule.length) {
+            var process = $scope.processes[0];
+            var lastSchedule = $scope.schedule.length ? $scope.schedule[$scope.schedule.length - 1] : null;
+            var startTime = lastSchedule ? (lastSchedule.end_time) : second;
+            // put process in schedule
+            $scope.schedule.push({
+                name: process.name,
+                start_time: startTime,
+                end_time: startTime + process.burst_time
+            });
+        } else {
+            var theSchedule = null;
+            for(var key in $scope.schedule) {
+                var schedule = $scope.schedule[key];
+                if (schedule.end_time === second) {
+                    theSchedule = schedule;
+                    break;
+                }
+            }
+            if (theSchedule) {
+                var theProcess = null;
+                for(var key in $scope.processes) {
+                    var process = $scope.processes[key];
+                    var processAlreadyScheduled = false;
+                    for(var scheduleKey in $scope.schedule) {
+                        var schedule = $scope.schedule[scheduleKey];
+                        if (process.name === schedule.name) {
+                            processAlreadyScheduled = true;
+                            break;
+                        }
+                    }
+                    if (!processAlreadyScheduled) {
+                        if (theProcess === null || theProcess.priority > process.priority) {
+                            theProcess = process;
+                        }
+                    }
+                }
+                if (theProcess) {
+                    var process = theProcess;
+                    var lastSchedule = $scope.schedule.length ? $scope.schedule[$scope.schedule.length - 1] : null;
+                    var startTime = lastSchedule ? (lastSchedule.end_time) : second;
+                    // put process in schedule
+                    $scope.schedule.push({
+                        name: process.name,
+                        start_time: startTime,
+                        end_time: startTime + process.burst_time
+                    });
+                }
+            }
+        }
+
+        // check each process state
         for(var key in $scope.processes) {
             var process = $scope.processes[key];
-            if (!$scope.schedule.length) {
+            // detect processes that start
+            if (process.arrival_time === second) {
+                var lastSchedule = $scope.schedule.length ? $scope.schedule[$scope.schedule.length - 1] : null;
+                var startTime = lastSchedule ? (lastSchedule.end_time) : second;
+                // put process in schedule
                 $scope.schedule.push({
-                    'name': process.name,
-                    'start_time' : 0,
-                    'end_time' : 0 + process.burst_time
-                });
-            } else {
-                var lastSchedule = $scope.schedule[$scope.schedule.length - 1];
-                $scope.schedule.push({
-                    'name': process.name,
-                    'start_time' : lastSchedule.end_time,
-                    'end_time' : lastSchedule.end_time + process.burst_time
+                    name: process.name,
+                    start_time: startTime,
+                    end_time: startTime + process.burst_time
                 });
             }
         }
-        // reset total scheduled seconds
-        $scope.updateSeconds();
+
+        // find max schedule end time
+        for(var key in $scope.schedule) {
+            var schedule = $scope.schedule[key];
+            if (secondsForExecution < schedule.end_time) {
+                secondsForExecution = schedule.end_time;
+            }
+        }
+
+        $scope.seconds++;
+        $scope.secondsRange = _.range(0, $scope.seconds);
+
+        if ($scope.seconds <= secondsForExecution) {
+            if (timeoutInSeconds) {
+                $scope.myAnimation = $timeout(function() {
+                    $scope.generateScheduleRecursively(secondsForExecution, timeoutInSeconds);
+                }, timeoutInSeconds);
+            } else {
+                $scope.generateScheduleRecursively(secondsForExecution, timeoutInSeconds);
+            }
+        } else {
+            // update seconds range
+            $scope.secondsRangeHeaders = _.range(0, $scope.seconds);
+        }
     };
 
     $scope.resetProcess = function() {

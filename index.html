@@ -585,6 +585,14 @@ Lai lietotu programmu, viss, ko ir nepieciešams izdarīt, ir izvēlēties vienu
                             <button class="btn btn-primary" ng-click="fillProcessesWithTestData();">GENERATE</button>
                             <button class="btn btn-danger" ng-click="dropProcesses();">RESET</button>
                         </div>
+                        <h4>Animation</h4>
+                        <div style="margin-bottom: 30px;">
+                            <button class="btn btn-primary" ng-click="generateSchedule(true);">START</button>
+                            <button class="btn btn-danger" ng-click="stopScheduleGeneration();">STOP</button>
+                        </div>
+                        <div style="margin-bottom: 30px;" ng-if="myAnimation && seconds">
+                            <label>Current Second: {{seconds}}</label>
+                        </div>
                     </div>
                 </div>
 
@@ -637,7 +645,7 @@ Lai lietotu programmu, viss, ko ir nepieciešams izdarīt, ir izvēlēties vienu
                             <th>
                                 {{value.name}}
                             </th>
-                            <td ng-repeat="i in secondsRange" style="padding-left:1px;padding-right:1px;">
+                            <td ng-repeat="i in secondsRangeHeaders" style="padding-left:1px;padding-right:1px;">
                                 <div class="progress" style="margin-bottom: 0px; border-radius: 0;">
                                     <div class="progress-bar"
                                          ng-class="{'progress-bar-danger': isScheduleWaiting(value, i), 'no-transition': !isScheduleWaiting(value, i) && !isScheduleActive(value, i)}"
