@@ -361,30 +361,40 @@
                             <button class="btn btn-primary" ng-click="fillProcessesWithTestData();">GENERATE</button>
                             <button class="btn btn-danger" ng-click="dropProcesses();">RESET</button>
                         </div>
+                        <h4>Animation</h4>
+                        <div style="margin-bottom: 30px;">
+                            <button class="btn btn-primary" ng-click="generateSchedule(true);">START</button>
+                            <button class="btn btn-danger" ng-click="stopScheduleGeneration();">STOP</button>
+                        </div>
+                        <div style="margin-bottom: 30px;" ng-if="myAnimation && seconds">
+                            <label>Current Second: {{seconds}}</label>
+                        </div>
                     </div>
                 </div>
-                <div class="row" ng-if="schedule.length">
+                <div class="row" ng-if="seconds > 0">
                     <h3>Gantt Chart</h3>
                     <table class="table table-bordered">
                         <tr>
+                            <th ng-if="!schedule.length"  class="text-center">---</th>
                             <th ng-repeat="(key, value) in schedule" class="text-center">
                                 {{value.name}}
                             </th>
                         </tr>
                         <tr>
+                            <td ng-if="!schedule.length"  class="text-center">---</td>
                             <td ng-repeat="(key, value) in schedule" class="text-center">
                                 {{value.start_time}} - {{value.end_time}}
                             </td>
                         </tr>
                     </table>
                 </div>
-                <div class="row" ng-if="schedule.length">
+                <div class="row" ng-if="seconds > 0">
                     <h3>Process Flow</h3>
                     <hr />
                     <div style="margin-bottom: 10px;">
                         <div style="display: inline-block;">
-                            <div class="progress" style="width: 70px; display: inline-block; margin-bottom: 0px; border-radius: 0; background-color: #d46367; opacity: .5;">
-                                <div class="progress-bar" role="progressbar" style="width: 0;">
+                            <div class="progress" style="width: 70px; display: inline-block; margin-bottom: 0px; border-radius: 0;">
+                                <div class="progress-bar progress-bar-danger" role="progressbar" style="width: 100%;">
                                     <span class="sr-only"></span>
                                 </div>
                             </div>
@@ -402,7 +412,7 @@
                     <table class="table" style="table-layout: fixed;">
                         <tr>
                             <th style="width: 70px;">Process</th>
-                            <th ng-repeat="i in secondsRange">
+                            <th ng-repeat="i in secondsRangeHeaders">
                                 {{i}}
                             </th>
                         </tr>
@@ -410,9 +420,13 @@
                             <th>
                                 {{value.name}}
                             </th>
-                            <td ng-repeat="i in secondsRange" style="padding-left:1px;padding-right:1px;">
-                                <div class="progress" style="margin-bottom: 0px; border-radius: 0;" ng-style="isScheduleWaiting(value, i) && {'background-color' : '#d46367', 'opacity': 0.5}">
-                                    <div class="progress-bar" role="progressbar" ng-style="{'width': isScheduleActive(value, i) ? '100%' : '0%'}">
+                            <td ng-repeat="i in secondsRangeHeaders" style="padding-left:1px;padding-right:1px;">
+                                <div class="progress" style="margin-bottom: 0px; border-radius: 0;">
+                                    <div class="progress-bar"
+                                         ng-class="{'progress-bar-danger': isScheduleWaiting(value, i), 'no-transition': !isScheduleWaiting(value, i) && !isScheduleActive(value, i)}"
+                                         role="progressbar"
+                                         ng-style="{'width': isScheduleActive(value, i) || isScheduleWaiting(value, i)? '100%' : '0%'}"
+                                    >
                                         <span class="sr-only"></span>
                                     </div>
                                 </div>
