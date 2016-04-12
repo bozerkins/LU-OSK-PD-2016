@@ -33,32 +33,42 @@
 <!-- Templates -->
 <script type="text/ng-template" id='/navigation.html'>
     <div class="col-sm-2 col-md-2 sidebar">
-        <ul class="nav nav-sidebar">
+        <ul class="nav nav-sidebar" style="">
             <li><a href="#/visualisations/first-come-first-served">First come - First served</a></li>
             <li><a href="#/visualisations/shortest-job-first">Shortest Job First</a></li>
-            <li><a href="#/visualisations/round-robin">Round Robin</a></li>
             <li><a href="#/visualisations/priority">Priority</a></li>
+            <li><a href="#/visualisations/round-robin">Round Robin</a></li>
         </ul>
     </div>
 </script>
 <script type="text/ng-template" id='/homepage.html'>
     <br><br><br>
-    <div class="row" style="padding-left:100px;">
+    <div class="row">
       <div class="col-sm-6 text-center">
         <h1><a href="#/visualisations/">Šeit</a> notiek maģija...</h1><br>
         <h1>...CPU plānošanas algoritmi!</h1><br>
         <br><br><br><br><br>
       </div>
       <div class="col-sm-6 text-center">
-        <img src="img/cpu.png" class="img-responsive img-circle" style="width: 210px; height:210px; margin-left:165px;" alt="Responsive image">
+        <img src="img/cpu.png" class="img-responsive img-circle" style="width: 210px; height:210px;display: inline-block;" alt="Responsive image">
       </div>
     </div>
+    <div class="row">
       <div class="col-sm-6 text-center">
-          <h4><a href="#/about/">Par projektu</a>
+          <h4>
+              <a href="#/about/">
+                <button type="button" class="btn btn-primary btn-lg">Par projektu</button>
+              </a>
+          </h4>
       </div>
       <div class="col-sm-6 text-center">
-          <h4><a href="#/collaborators/">Par autoriem</a>
+          <h4>
+              <a href="#/collaborators/">
+                <button type="button" class="btn btn-primary btn-lg">Par autoriem</button>
+              </a>
+          </h4>
       </div>
+    </div>
 
 </script>
 <script type="text/ng-template" id='/about.html'>
